@@ -1,0 +1,74 @@
+% Saved by Prover9-Mace4 Version 0.5, December 2007.
+
+set(ignore_option_dependencies). % GUI handles dependencies
+
+if(Prover9). % Options for Prover9
+  assign(max_seconds, 60).
+end_if.
+
+if(Mace4).   % Options for Mace4
+  assign(max_seconds, 60).
+end_if.
+
+formulas(assumptions).
+
+%differentFrom(x,y)
+%a, b ,c 
+
+differentFrom(a, b).
+differentFrom(a, c).
+differentFrom(b, c).
+
+differentFrom(x, y) -> differentFrom(y, x).
+
+%name, occupation, movie role, coin value
+brian(x) | paul(x) | charlie(x).
+bricklayer(x) | carpenter(x) | plumber(x).
+luckyStarr(x) | jhonnyLadd(x) | justaKidd(x).
+a10c(x) | a20c(x) | a50c(x).
+
+%fiecare persoana e unica
+brian(x) & brian(y)-> -differentFrom(x, y).
+paul(x) & paul(y) -> -differentFrom(x,y).
+charlie(x) & charlie(y) -> -differentFrom(x,y).
+
+bricklayer(x) & bricklayer(y) -> -differentFrom(x,y).
+carpenter(x) & carpenter(y) -> -differentFrom(x,y).
+plumber(x) & plumber(y) -> -differentFrom(x,y).
+
+luckyStarr(x) & luckyStarr(y) -> -differentFrom(x,y).
+jhonnyLadd(x) & jhonnyLadd(y) -> -differentFrom(x,y).
+justaKidd(x) & justaKidd(y) -> -differentFrom(x,y).
+
+a10c(x) & a10c(y) -> -differentFrom(x,y).
+a20c(x) & a20c(y) -> -differentFrom(x,y).
+a50c(x) & a50c(y) -> -differentFrom(x,y).
+
+%indicii
+
+%1.No tourist has an occupation strating with the same letter as his name
+
+brian(x) & bricklayer(y) -> differentFrom(x,y).
+charlie(x) & carpenter(y) -> differentFrom(x,y).
+paul(x) & plumber(y) -> differentFrom(x,y).
+
+%2.Lucky Starr was the wish of the tourist who had 20c coin and threw last. 
+luckyStarr(x) <-> a20c(x).
+luckyStarr(c).
+a20c(c).
+
+%3. The coin thrown first was 50c which belong to the bricklayer, not Charlie.
+a50c(x) <-> bricklayer(x).
+a50c(x) -> -charlie(x).
+a50c(a).
+bricklayer(a).
+
+%4. Jhonny Ladd was the plumber's wish.
+jhonnyLadd(x) <-> plumber(x).
+
+end_of_list.
+
+formulas(goals).
+
+end_of_list.
+

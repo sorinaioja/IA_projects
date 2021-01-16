@@ -1,0 +1,238 @@
+% Saved by Prover9-Mace4 Version 0.5, December 2007.
+
+set(ignore_option_dependencies). % GUI handles dependencies
+
+if(Prover9). % Options for Prover9
+  assign(max_seconds, 60).
+end_if.
+
+if(Mace4).   % Options for Mace4
+  assign(max_seconds, 60).
+end_if.
+
+if(Prover9). % Additional input for Prover9
+set(arithmetic).
+
+
+formulas(assumptions).
+
+%Five friends are side by side planning a dinner together. 
+%Each one enjoys different kinds of pasta and wines from different countries. 
+%Figure out which pasta Holly likes the most.
+
+%differentFrom(x,y)
+%a, b ,c ,d, e
+%a women#1
+%b women#2
+%c women#3
+%d women#4
+%e women#5
+
+differentFrom(a, b).
+differentFrom(a, c).
+differentFrom(a, d).
+differentFrom(a, e).
+
+differentFrom(b, c).
+differentFrom(b, d).
+differentFrom(b, e).
+
+differentFrom(c, d).
+differentFrom(c, e).
+
+differentFrom(d, e).
+differentFrom(x, y) -> differentFrom(y, x).
+
+%rightNeighbor(x,y) - y este in dreapta lui x
+
+rightneighbor(a,b).
+rightneighbor(b,c).
+rightneighbor(c,d).
+rightneighbor(d,e).
+
+%notFirstRightNeighbour(x, y)
+
+-rightneighbor(a, a).
+-rightneighbor(a, c).
+-rightneighbor(a, d).
+-rightneighbor(a, e).
+
+-rightneighbor(b, b).
+-rightneighbor(b, d).
+-rightneighbor(b, e).
+-rightneighbor(b, a).
+
+-rightneighbor(c, a).
+-rightneighbor(c, c).
+-rightneighbor(c, b).
+-rightneighbor(c, e).
+
+-rightneighbor(d, a).
+-rightneighbor(d, b).
+-rightneighbor(d, d).
+-rightneighbor(d, c).
+
+-rightneighbor(e, c).
+-rightneighbor(e, b).
+-rightneighbor(e, a).
+-rightneighbor(e, e).
+-rightneighbor(e, d).
+
+%vecin
+neighbor(x, y )<-> rightneighbor(x, y) | rightneighbor(y, x).
+
+% totheright(x,y) -> x e undeva in stanga lui y sau y e undeva la dreapta lui x
+totheright(a,b).
+totheright(a,c).
+totheright(a,d).
+totheright(a,e).
+-totheright(a,a).
+
+-totheright(b,a).
+-totheright(b,b).
+totheright(b,c).
+totheright(b,d).
+totheright(b,e).
+
+-totheright(c,a).
+-totheright(c,b).
+-totheright(c,c).
+totheright(c,d).
+totheright(c,e).
+
+-totheright(d,a).
+-totheright(d,b).
+-totheright(d,c).
+-totheright(d,d).
+totheright(d,e).
+
+-totheright(e, a).
+-totheright(e, b).
+-totheright(e, c).
+-totheright(e, d).
+-totheright(e, e).
+
+%between(x,y,z) -> y este undeva intre x si z deci y este undeva in dreapta lui x si z undeva in dreapta lui y  
+
+between(x,y,z) <-> totheright(x,y) & totheright(y,z) & totheright(x,z). 
+
+%shirt, name, surname, pasta, wine, age
+
+blue(x) | green(x) | red(x) | white(x) | yellow(x).
+andrea(x) | holly(x) | julie(x) | leslie(x) | victoria(x).
+davis(x) | lopes(x) | brown(x) | miller(x) | wilson(x).
+farfalle(x) | lasagne(x) | penne(x) | spaghetti(x) | ravioli(x).
+australian(x) | argentine(x) | chilean(x) | french(x) | italian(x).
+a30years(x) | a35years(x) | a40years(x) | a45years(x) | a50years(x).
+
+%fiecare persoana e unica
+blue(x) & blue(y)-> -differentFrom(x, y).
+green(x) & green(y) -> -differentFrom(x,y).
+red(x) & red(y) -> -differentFrom(x,y).
+white(x) & white(y) -> -differentFrom(x,y).
+yellow(x) & yellow(y) -> -differentFrom(x,y).
+
+andrea(x) & andrea(y) -> -differentFrom(x,y).
+holly(x) & holly(y) -> -differentFrom(x,y).
+julie(x) & julie(y) -> -differentFrom(x,y).
+leslie(x) & leslie(y) -> -differentFrom(x,y).
+victoria(x) & victoria(y) -> -differentFrom(x,y).
+
+davis(x) & davis(y) -> -differentFrom(x,y).
+lopes(x) & lopes(y) -> -differentFrom(x,y).
+brown(x) & brown(y) -> -differentFrom(x,y).
+miller(x) & miller(y) -> -differentFrom(x,y).
+wilson(x) & wilson(y) -> -differentFrom(x,y).
+
+farfalle(x) & farfalle(y) -> -differentFrom(x,y).
+lasagne(x) & lasagne(y) -> -differentFrom(x,y).
+penne(x) & penne(y) -> -differentFrom(x,y).
+spaghetti(x) & spaghetti(y) -> -differentFrom(x,y).
+ravioli(x) & ravioli(y) -> -differentFrom(x,y).
+
+australian(x) & australian(y) -> -differentFrom(x,y).
+argentine(x) & argentine(y) -> -differentFrom(x,y).
+chilean(x) & chilean(y) -> -differentFrom(x,y).
+french(x) & french(y) -> -differentFrom(x,y).
+italian(x) & italian(y) -> -differentFrom(x,y).
+
+a30years(x) & a30years(y) -> -differentFrom(x,y).
+a35years(x) & a35years(y) -> -differentFrom(x,y).
+a40years(x) & a40years(y) -> -differentFrom(x,y).
+a45years(x) & a45years(y) -> -differentFrom(x,y).
+a50years(x) & a50years(y) -> -differentFrom(x,y).
+
+%indicii
+
+%1.The woman wearing the White shirt is next to the woman who likes Lombardian wines.
+white(x) & italian(y) -> neighbor(x,y).
+
+%2. Ms Miller is somewhere between Ms Davis and Ms Brown, in that order.
+davis(x) & miller(y) & brown(z) -> between(x,y,z).
+
+%3. The youngest woman is at the third position.
+a30years(c).
+
+%4. The 45 years old woman is somewhere to the right of the woman wearing the Red shirt.
+a45years(x) & red(y) -> totheright(y,x).
+
+%5. The woman who likes Chilean wines also likes Farfalle.
+chilean(x) <-> farfalle(x).
+
+%6. At the first position is the woman that likes Argentine wines.
+argentine(a).
+
+%7.Andrea is exactly to the right of the 35 years old woman.
+andrea(x) & a35years(y) -> rightneighbor(y,x).
+
+%8.The woman wearing the Blue shirt is somewhere between Ms Davis and Holly, in that order.
+davis(x) & blue(y) & holly(z) -> between(x,y,z).
+
+%9.Victoria is next to Leslie.
+victoria(x) & leslie(y) -> neighbor(x,y).
+
+%10. The woman wearing the Red shirt is somewhere to the left of the woman who likes Australian wines.
+red(x) & australian(y) -> totheright(x,y).
+
+%11. Ms Wilson is next to the 30 years old woman.
+wilson(x) & a30years(y) -> neighbor(x,y).
+
+%12. Leslie is exactly to the left of the 30 years old woman.
+leslie(x) & a30years(y) -> rightneighbor(x,y).
+
+%13. Holly is somewhere to the right of the woman wearing the Red shirt.
+holly(x) & red(y) -> totheright(y,x).
+
+%14. Ms Brown is exactly to the left of Julie.
+brown(x) & julie(y) -> rightneighbor(x,y).
+
+%15. The youngest woman likes Penne.
+a30years(x) <-> penne(x).
+
+%16. Ms Wilson is wearing the White shirt.
+white(x) <-> wilson(x).
+
+%17. The woman who likes Lasagne is somewhere between the woman who likes Italian wines and the woman who likes Spaghetti, in that order.
+italian(x) & lasagne(y) & spaghetti(z) -> between(x,y,z).
+
+%18. At the second position is the woman wearing the Blue shirt.
+blue(b).
+
+%19. The 40 years old woman likes Lasagne.
+a40years(x) <-> lasagne(x).
+
+%20. Ms Lopes is at the fifth position.
+lopes(e).
+
+%21. The woman that likes Australian wines is somewhere between Victoria and the woman who likes wines from Bordeaux, in that order.
+victoria(x) & australian(y) & french(z) -> between(x,y,z).
+
+%22. The woman wearing the Yellow shirt is exactly to the left of the 35 years old woman.
+yellow(x) & a35years(y) -> rightneighbor(x,y).
+
+end_of_list.
+
+formulas(goals).
+
+end_of_list.
+
